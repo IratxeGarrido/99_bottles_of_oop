@@ -1,47 +1,36 @@
 class Bottles
-  def verse(n)
-    sentence(n).capitalize + ", " +
-    sentence(n, is_on_the_wall: false) + ".\n" +
-    third_line(n) +
-    sentence(n - 1, is_last: true) + ".\n"
-  end
-
-  def verses(upper, lower)
-    upper.downto(lower).map { |n| verse(n) }.join("\n")
-  end
-
   def song
     verses(99, 0)
   end
 
-  private
-
-  def sentence(n, is_last: false, is_on_the_wall: true)
-    count(n) + bottles(n) + ' of beer' + on_the_wall(is_on_the_wall)
+  def verses(starting, ending)
+    starting.downto(ending).map { |number| verse(number) }.join("\n")
   end
 
-  def count(n)
-    n > 0 ? n.to_s : n == -1 ? 99.to_s : 'no more'
+  def verse(number)
+    case number
+    when 0
+      "No more bottles of beer on the wall, " +
+      "no more bottles of beer.\n" +
+      "Go to the store and buy some more, " +
+      "99 bottles of beer on the wall.\n"
+    when 1
+      "1 bottle of beer on the wall, " +
+      "1 bottle of beer.\n" +
+      "Take it down and pass it around, " +
+      "no more bottles of beer on the wall.\n"
+    when 2
+      "2 bottles of beer on the wall, " +
+      "2 bottles of beer.\n" +
+      "Take one down and pass it around, " +
+      "1 bottle of beer on the wall.\n"
+    when number
+      "#{number} bottles of beer on the wall, " +
+      "#{number} bottles of beer.\n" +
+      "Take one down and pass it around, " +
+      "#{number - 1} bottles of beer on the wall.\n"
+    end
   end
 
-  def bottles(n)
-    ' bottle' + (singular?(n) ? '' : 's')
-  end
 
-  def singular?(n)
-    n == 1
-  end
-
-  def on_the_wall(is_on_the_wall)
-    is_on_the_wall ? ' on the wall' : ''
-  end
-
-  def how_many(n)
-    singular?(n) ? 'it' : 'one'
-  end
-
-  def third_line(n)
-    return 'Go to the store and buy some more, ' if n == 0
-    "Take #{how_many(n)} down and pass it around, "
-  end
 end
